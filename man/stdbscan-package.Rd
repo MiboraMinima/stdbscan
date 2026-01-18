@@ -4,12 +4,20 @@
 \name{stdbscan-package}
 \alias{stdbscan}
 \alias{stdbscan-package}
-\title{stdbscan: What the Package Does (One Line, Title Case)}
+\title{stdbscan: Spatio-Temporal DBSCAN Clustering}
 \description{
-What the package does (one paragraph).
+Implements the ST-DBSCAN clustering algorithm for detecting spatially and temporally dense regions in point data, with a fast C++ backend via Rcpp.
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/MiboraMinima/stdbscan}
+  \item Report bugs at \url{https://github.com/MiboraMinima/stdbscan/issues}
+}
+
 }
 \author{
-\strong{Maintainer}: First Last \email{first.last@example.com}
+\strong{Maintainer}: Antoine Le Doeuff \email{antoine.ldoeuff@gmail.com} (\href{https://orcid.org/0009-0008-8807-3816}{ORCID})
 
 }
 \keyword{internal}

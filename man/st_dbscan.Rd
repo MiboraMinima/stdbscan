@@ -25,9 +25,9 @@ point (standard DBSCAN parameter).}
 \value{
 An integer vector of length \code{length(x)} with cluster assignments:
 \itemize{
-\item{0 — not visited / unassigned (should not occur in final output)}
-\item{-1 — noise point}
-\item{>0 — cluster ID}
+\item 0: not visited / unassigned (should not occur in final output)
+\item 1: noise point
+\item 0: cluster ID
 }
 }
 \description{
@@ -38,8 +38,8 @@ in space and time.
 \details{
 ST-DBSCAN extends classical DBSCAN by incorporating a temporal constraint.
 Two points are considered neighbors if they are within \code{eps_spatial} in
-space \strong{and} within \code{eps_temporal} in time. Clusters are expanded from
-core points recursively following the DBSCAN algorithm.
+space \strong{and} within \code{eps_temporal} in time. Clusters are expanded from core
+points recursively following the DBSCAN algorithm.
 
 This function is implemented in C++ via Rcpp for speed.
 }
@@ -52,7 +52,6 @@ st_dbscan(x, y, t, eps_spatial = 0.3, eps_temporal = 2, min_pts = 2)
 
 }
 \references{
-'
 Birant, D., & Kut, A. (2007). ST-DBSCAN: An algorithm for clustering
 spatial–temporal data. Data & Knowledge Engineering, 60(1), 208–221.
 https://doi.org/10.1016/j.datak.2006.01.013
