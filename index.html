@@ -11,8 +11,8 @@
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Spatio-Temporal DBSCAN Clustering">
-<meta name="description" content="Implements the ST-DBSCAN clustering algorithm for detecting spatially and temporally dense regions in point data, with a fast C++ backend via Rcpp.">
-<meta property="og:description" content="Implements the ST-DBSCAN clustering algorithm for detecting spatially and temporally dense regions in point data, with a fast C++ backend via Rcpp.">
+<meta name="description" content="Implements the ST-DBSCAN clustering algorithm for detecting spatially and temporally dense regions in point data, with a fast C++ backend via Rcpp. Birant and Kut (2007) &lt;10.1016/j.datak.2006.01.013&gt;.">
+<meta property="og:description" content="Implements the ST-DBSCAN clustering algorithm for detecting spatially and temporally dense regions in point data, with a fast C++ backend via Rcpp. Birant and Kut (2007) &lt;10.1016/j.datak.2006.01.013&gt;.">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -33,6 +33,7 @@
       <ul class="navbar-nav me-auto">
 <li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
 <li class="nav-item"><a class="nav-link" href="articles/index.html">Articles</a></li>
+<li class="nav-item"><a class="nav-link" href="news/index.html">Changelog</a></li>
       </ul>
 <ul class="navbar-nav">
 <li class="nav-item"><form class="form-inline" role="search">
@@ -88,10 +89,21 @@
 <div class="section level2">
 <h2 id="alternatives">Alternatives<a class="anchor" aria-label="anchor" href="#alternatives"></a>
 </h2>
+<p><code>R</code> :</p>
 <ul>
 <li><a href="https://github.com/CKerouanton/ST-DBSCAN" class="external-link">ST-DBSCAN</a></li>
 <li><a href="https://github.com/gdmcdonald/stdbscanr" class="external-link">stdbscanr</a></li>
 </ul>
+<p><code>python</code> :</p>
+<ul>
+<li><a href="https://github.com/eren-ck/st_dbscan" class="external-link">st_dbscan</a></li>
+<li><a href="https://github.com/eubr-bigsea/py-st-dbscan" class="external-link">py-st-dbscan</a></li>
+</ul>
+</div>
+<div class="section level2">
+<h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h2>
+<p>Birant, D., &amp; Kut, A. (2007). ST-DBSCAN: An algorithm for clustering spatial–temporal data. <em>Data &amp; Knowledge Engineering</em>, 60(1), 208–221. <a href="https://doi.org/10.1016/j.datak.2006.01.013" class="external-link uri">https://doi.org/10.1016/j.datak.2006.01.013</a></p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="dev-status">
