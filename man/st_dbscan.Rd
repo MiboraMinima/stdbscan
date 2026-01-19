@@ -46,10 +46,12 @@ This function is implemented in C++ via Rcpp for performance.
 \examples{
 data(geolife_traj)
 
-geolife_traj$date_time <- as_datetime(
+geolife_traj$date_time <- as.POSIXct(
   paste(geolife_traj$date, geolife_traj$time),
+  format = "\%Y-\%m-\%d \%H:\%M:\%S",
   tz = "GMT"
 )
+
 geolife_traj$t <- as.numeric(
   geolife_traj$date_time - min(geolife_traj$date_time)
 )
