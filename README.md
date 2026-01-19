@@ -18,7 +18,13 @@ performance.
 
 ## Installation
 
-You can install the development version of `stdbscan` from github with :
+The package will be available on CRAN. Once released, install with:
+
+```{r}
+install.packages("stdbscan")
+```
+
+In the meantime, you can install the development version from GitHub:
 
 ```r
 # install.packages("devtools")
