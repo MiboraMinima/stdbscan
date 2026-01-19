@@ -18,8 +18,8 @@
 #' - `y` (dbl): Latitude (EPSG:4586)
 #'
 #' @examples
-#' data(my_data)
-#' head(my_data)
+#' data(geolife_traj)
+#' head(geolife_traj)
 #'
 #' @source <https://www.microsoft.com/en-us/download/details.aspx?id=52367>
 "geolife_traj"
