@@ -11,8 +11,8 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
 // st_dbscan_cpp
-IntegerVector st_dbscan_cpp(NumericVector x, NumericVector y, NumericVector t, double eps_spatial, double eps_temporal, int minPts);
-RcppExport SEXP _stdbscan_st_dbscan_cpp(SEXP xSEXP, SEXP ySEXP, SEXP tSEXP, SEXP eps_spatialSEXP, SEXP eps_temporalSEXP, SEXP minPtsSEXP) {
+IntegerVector st_dbscan_cpp(NumericVector x, NumericVector y, NumericVector t, double eps_spatial, double eps_temporal, int min_pts);
+RcppExport SEXP _stdbscan_st_dbscan_cpp(SEXP xSEXP, SEXP ySEXP, SEXP tSEXP, SEXP eps_spatialSEXP, SEXP eps_temporalSEXP, SEXP min_ptsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -21,8 +21,8 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< NumericVector >::type t(tSEXP);
     Rcpp::traits::input_parameter< double >::type eps_spatial(eps_spatialSEXP);
     Rcpp::traits::input_parameter< double >::type eps_temporal(eps_temporalSEXP);
-    Rcpp::traits::input_parameter< int >::type minPts(minPtsSEXP);
-    rcpp_result_gen = Rcpp::wrap(st_dbscan_cpp(x, y, t, eps_spatial, eps_temporal, minPts));
+    Rcpp::traits::input_parameter< int >::type min_pts(min_ptsSEXP);
+    rcpp_result_gen = Rcpp::wrap(st_dbscan_cpp(x, y, t, eps_spatial, eps_temporal, min_pts));
     return rcpp_result_gen;
 END_RCPP
 }

@@ -8,7 +8,7 @@ IntegerVector st_dbscan_cpp(NumericVector x,
                             NumericVector t,
                             double eps_spatial,
                             double eps_temporal,
-                            int minPts) {
+                            int min_pts) {
 
   int n = x.size();
   IntegerVector labels(n, 0); // 0 = unvisited, -1 = noise
@@ -33,7 +33,7 @@ IntegerVector st_dbscan_cpp(NumericVector x,
       }
     }
 
-    if ((int)neighbors.size() < minPts) {
+    if ((int)neighbors.size() < min_pts) {
       labels[i] = -1;
       continue;
     }
@@ -68,7 +68,7 @@ IntegerVector st_dbscan_cpp(NumericVector x,
         }
       }
 
-      if ((int)neighbors_p.size() >= minPts) {
+      if ((int)neighbors_p.size() >= min_pts) {
         neighbors.insert(neighbors.end(),
                          neighbors_p.begin(),
                          neighbors_p.end());

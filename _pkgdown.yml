@@ -1,5 +1,19 @@
 url: https://miboraminima.github.io/stdbscan/
 template:
   bootstrap: 5
+  light-switch: true
+  bslib:
+    preset: bootstrap
 llm-docs: false
-
+home:
+  sidebar:
+    structure:
+    - dev
+    - links
+    - authors
+    - license
+    - citation
+articles:
+  - title: "Spatio-temporal clustering"
+    contents:
+      - stop-identification

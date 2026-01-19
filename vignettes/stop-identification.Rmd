@@ -1,0 +1,155 @@
+---
+title: "Stop identification with ST-DBSCAN"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Stop identification with ST-DBSCAN}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, message=FALSE}
+library(stdbscan)
+library(readr)
+library(lubridate)
+library(ggplot2)
+library(plotly)
+```
+
+## Presentation
+
+This vignette briefly demonstrates how to perform **stop identification** in a
+GPS track using ST-DBSCAN, which is a classic application of this algorithm.
+
+## Dataset
+
+The [GeoLife GPS Trajectories
+dataset](https://www.microsoft.com/en-us/download/details.aspx?id=52367) is used
+for this demonstration. The GPS trajectories are located in Beijing. We
+previously converted the pings to a metric coordinate reference system
+(EPSG:4586) and selected only the relevant variables.
+
+```{r}
+head(geolife_traj)
+
+# Copy source data
+dt <- geolife_traj
+```
+
+```{r, fig.width=7, fig.height=7}
+ggplot() +
+  geom_path(data = dt, aes(x, y)) +
+  labs(x = "", y = "",
+    title = "GPS track analyzed in this vignette",
+    caption = "Data: GeoLife GPS Trajectories (Microsoft, 2012). Author: Antoine Le Doeuff, 2026",
+  ) +
+  coord_equal() +
+  theme_minimal() +
+  theme(plot.title = element_text(size = 16, face = "bold"))
+```
+
+## Preprocessing
+
+For `stdbscan` to work, the time variable must be numeric. We therefore convert
+it to seconds since the beginning of the track.
+
+```{r}
+dt$date_time <- as_datetime(paste(dt$date, dt$time), tz = "GMT")
+dt$t <- as.numeric(dt$date_time - min(dt$date_time))
+```
+
+## Run ST-DBSCAN
+
+We can then run ST-DBSCAN using `st_dbscan()`. We set a spatial neighborhood of
+3 meters, a temporal neighborhood of 30 seconds, and require a minimum of 3
+pings to form a cluster. Note that these parameters are used only for
+demonstration purposes; in practice, a grid search (or similar tuning strategy)
+should be used to determine optimal values.
+
+```{r, fig.height=8}
+clusters <- st_dbscan(
+  x = dt$x,
+  y = dt$y,
+  t = dt$t,
+  eps_spatial = 3, # meters
+  eps_temporal = 30, # seconds
+  min_pts = 3
+)
+dt$clust <- as.factor(clusters)
+```
+
+## Check result
+
+We can check the number of pings in each cluster using `table()`.
+
+```{r}
+table(dt$clust)
+```
+
+Clusters can be plotted directly using `ggplot2` :
+
+```{r, fig.width=7, fig.height=7}
+# Extract stops and movements
+dt_mvt <- dt[dt$clust == "-1", ]
+dt_stop <- dt[dt$clust != "-1", ]
+
+# Plot
+ggplot() +
+  geom_path(data = dt_mvt, aes(x, y)) +
+  geom_point(data = dt_stop, aes(x, y, color = clust), size = 4) +
+  labs(x = "", y = "", color = "stop ID",
+    title = "ST-DBSCAN stop identification",
+    subtitle = "eps_spatial = 3 m, eps_temporal = 30 s and min_pts = 3",
+    caption = "Data: GeoLife GPS Trajectories (Microsoft, 2012). Author: Antoine Le Doeuff, 2026",
+  ) +
+  scale_color_manual(values = MetBrewer::met.brewer("Isfahan2", 5)) +
+  coord_equal() +
+  theme_minimal() +
+  theme(
+    legend.position = "bottom",
+    plot.title = element_text(size = 16, face = "bold"),
+  )
+```
+
+Clusters can be visualized in 3D using `plotly` :
+
+```{r, warning=FALSE, message=FALSE}
+# Zoom on stop 4
+dt_f <- dt[dt$x > 441060 & dt$x < 441100, ]
+dt_f <- dt_f[dt_f$y > 4428780 & dt_f$y < 4428820, ]
+
+# Extract stop
+dt_f_stop <- dt_f[dt_f$clust != "-1", ]
+
+# Plotly figure
+fig <- plot_ly(
+  data = dt_f,
+  x = ~x,
+  y = ~y,
+  z = ~t,
+  type = "scatter3d", mode = "lines+markers",
+  line = list(width = 4, color = "grey"),
+  marker = list(size = 3, color = "grey")
+)
+fig |>
+  add_markers(
+    x = ~dt_f_stop$x,
+    y = ~dt_f_stop$y,
+    z = ~dt_f_stop$t,
+    marker = list(size = 4, color = 'red'),
+    name = 'Stop'
+  ) |>
+  layout(
+    scene = list(
+      xaxis = list(title = "x"),
+      yaxis = list(title = "y"),
+      zaxis = list(title = "t")
+  )
+)
+```

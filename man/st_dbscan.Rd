@@ -11,7 +11,8 @@ st_dbscan(x, y, t, eps_spatial, eps_temporal, min_pts)
 
 \item{y}{Numeric vector of y-coordinates (spatial).}
 
-\item{t}{Numeric vector of time values.}
+\item{t}{Numeric vector of time values. \code{t} is expected to represent elapsed
+time since a common origin (\emph{e.g.} c(0, 6, 10)).}
 
 \item{eps_spatial}{Numeric. The spatial radius threshold. Points closer than
 this in space may belong to the same cluster.}
@@ -25,9 +26,8 @@ point (standard DBSCAN parameter).}
 \value{
 An integer vector of length \code{length(x)} with cluster assignments:
 \itemize{
-\item 0: not visited / unassigned (should not occur in final output)
-\item 1: noise point
-\item 0: cluster ID
+\item \code{-1}: noise point
+\item \verb{>=1}: cluster ID
 }
 }
 \description{
@@ -41,7 +41,7 @@ Two points are considered neighbors if they are within \code{eps_spatial} in
 space \strong{and} within \code{eps_temporal} in time. Clusters are expanded from core
 points recursively following the DBSCAN algorithm.
 
-This function is implemented in C++ via Rcpp for speed.
+This function is implemented in C++ via Rcpp for performance.
 }
 \examples{
 x <- c(0, 0.1, -0.1, 5, 5.1)
