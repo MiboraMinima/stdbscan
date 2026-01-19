@@ -4,6 +4,7 @@
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![Codecov test coverage](https://codecov.io/gh/MiboraMinima/stdbscan/graph/badge.svg)](https://app.codecov.io/gh/MiboraMinima/stdbscan)
+[![R-CMD-check](https://github.com/MiboraMinima/stdbscan/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/MiboraMinima/stdbscan/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 ## Overview
