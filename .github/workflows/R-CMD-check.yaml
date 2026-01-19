@@ -40,9 +40,8 @@ jobs:
           http-user-agent: ${{ matrix.config.http-user-agent }}
           use-public-rspm: true
 
-      # WARNING: there GCC-13 throw a breaking warning when other versions
-      # don't
-      # Ubuntu jobs except r-devel → GCC 12
+      # WARNING: GCC-13 throw a breaking warning when other versions don't
+      # Ubuntu jobs except r-devel -> GCC 12
       - name: Install GCC 12 (Ubuntu only)
         if: startsWith(matrix.config.os, 'ubuntu') && matrix.config.r != 'devel'
         run: |
@@ -53,7 +52,7 @@ jobs:
           gcc --version
           g++ --version
 
-      # Ubuntu r-devel → GCC 14
+      # Ubuntu r-devel -> GCC 14
       - name: Install GCC 14 (Ubuntu r-devel only)
         if: startsWith(matrix.config.os, 'ubuntu') && matrix.config.r == 'devel'
         run: |
