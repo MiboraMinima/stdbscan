@@ -36,6 +36,18 @@ devtools::install_github("MiboraMinima/stdbscan")
 
 ## Alternatives
 
+`R` :
+
 - [ST-DBSCAN](https://github.com/CKerouanton/ST-DBSCAN)
 - [stdbscanr](https://github.com/gdmcdonald/stdbscanr)
 
+`python` :
+
+- [st_dbscan](https://github.com/eren-ck/st_dbscan)
+- [py-st-dbscan](https://github.com/eubr-bigsea/py-st-dbscan)
+
+## References
+
+Birant, D., & Kut, A. (2007). ST-DBSCAN: An algorithm for clustering
+spatial–temporal data. *Data & Knowledge Engineering*, 60(1), 208–221.
+<https://doi.org/10.1016/j.datak.2006.01.013>
