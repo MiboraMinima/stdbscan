@@ -21,6 +21,12 @@ Imports:
     Rcpp
 Suggests: 
     knitr,
-    rmarkdown
+    rmarkdown,
+    readr,
+    testthat,
+    ggplot2,
+    lubridate,
+    plotly,
+    covr
 VignetteBuilder: knitr
 LazyData: true
