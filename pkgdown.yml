@@ -3,7 +3,7 @@ pkgdown: 2.2.0
 pkgdown_sha: ~
 articles:
   stop-identification: stop-identification.html
-last_built: 2026-01-19T14:20Z
+last_built: 2026-01-19T14:43Z
 urls:
   reference: https://miboraminima.github.io/stdbscan/reference
   article: https://miboraminima.github.io/stdbscan/articles
