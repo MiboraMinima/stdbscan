@@ -6,12 +6,11 @@
 \title{GPS pings from the GeoLife GPS Trajectories dataset}
 \format{
 A data.frame with one row per ping and the following columns:
-
-\describe{
-\item{date}{(chr) the date
-\item{time}{(chr) the time
-\item{x}{(dbl) Longitude (EPSG:4586)
-\item{y}{(dbl) Latitude (EPSG:4586)
+\itemize{
+\item \code{date} (chr): The date
+\item \code{time} (chr): The time
+\item \code{x} (dbl): Longitude (EPSG:4586)
+\item \code{y} (dbl): Latitude (EPSG:4586)
 }
 }
 \source{
@@ -22,13 +21,13 @@ geolife_traj
 }
 \description{
 Extraction of the GeoLife GPS Trajectories dataset. The selected trajectory
-is 000-20081023025304.
+id is 000-20081023025304.
 
 Data manipulation applied to the raw data :
 \itemize{
-\item Convertion to EPSG:4586
-\item Hand selection of pings
-\item Selection of relevant variable
+\item Conversion to EPSG:4586
+\item Manual selection of the pings
+\item Selection of relevant variables
 }
 }
 \keyword{datasets}

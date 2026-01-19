@@ -10,14 +10,12 @@
 #' * Manual selection of the pings
 #' * Selection of relevant variables
 #'
-#' @format A data.frame with one row per ping and the following columns:
+#' @format A `data.frame` with one row per ping and the following columns:
 #'
-#' \describe{
-#'   \item{date}{(chr) the date
-#'   \item{time}{(chr) the time
-#'   \item{x}{(dbl) Longitude (EPSG:4586)
-#'   \item{y}{(dbl) Latitude (EPSG:4586)
-#' }
+#' - `date` (chr): The date
+#' - `time` (chr): The time
+#' - `x` (dbl): Longitude (EPSG:4586)
+#' - `y` (dbl): Latitude (EPSG:4586)
 #'
 #' @source https://www.microsoft.com/en-us/download/details.aspx?id=52367
 "geolife_traj"
