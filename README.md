@@ -31,6 +31,12 @@ In the meantime, you can install the development version from GitHub:
 devtools::install_github("MiboraMinima/stdbscan")
 ```
 
+## Usage
+
+An example of the application of `stdbscan` is available in the
+[vignette](https://miboraminima.github.io/stdbscan/articles/stop-identification.html)
+on stop identification.
+
 ## Problems and Issues
 
 - Please report any issues or bugs you may encounter on the [dedicated
