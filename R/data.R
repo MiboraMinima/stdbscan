@@ -17,5 +17,9 @@
 #' - `x` (dbl): Longitude (EPSG:4586)
 #' - `y` (dbl): Latitude (EPSG:4586)
 #'
-#' @source https://www.microsoft.com/en-us/download/details.aspx?id=52367
+#' @examples
+#' data(my_data)
+#' head(my_data)
+#'
+#' @source <https://www.microsoft.com/en-us/download/details.aspx?id=52367>
 "geolife_traj"
