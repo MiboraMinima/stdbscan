@@ -44,11 +44,24 @@ points recursively following the DBSCAN algorithm.
 This function is implemented in C++ via Rcpp for performance.
 }
 \examples{
-x <- c(0, 0.1, -0.1, 5, 5.1)
-y <- c(0, 0.1, -0.1, 5, 5.1)
-t <- c(0, 1, 2, 0, 1)
+data(geolife_traj)
 
-st_dbscan(x, y, t, eps_spatial = 0.3, eps_temporal = 2, min_pts = 2)
+geolife_traj$date_time <- as_datetime(
+  paste(geolife_traj$date, geolife_traj$time),
+  tz = "GMT"
+)
+geolife_traj$t <- as.numeric(
+  geolife_traj$date_time - min(geolife_traj$date_time)
+)
+
+st_dbscan(
+  x = geolife_traj$x,
+  y = geolife_traj$y,
+  t = geolife_traj$t,
+  eps_spatial = 3, # meters
+  eps_temporal = 30, # seconds
+  min_pts = 3
+)
 
 }
 \references{

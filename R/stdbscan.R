@@ -36,11 +36,24 @@
 #' https://doi.org/10.1016/j.datak.2006.01.013
 #'
 #' @examples
-#' x <- c(0, 0.1, -0.1, 5, 5.1)
-#' y <- c(0, 0.1, -0.1, 5, 5.1)
-#' t <- c(0, 5, 6, 7, 10)
+#' data(geolife_traj)
 #'
-#' st_dbscan(x, y, t, eps_spatial = 0.3, eps_temporal = 2, min_pts = 2)
+#' geolife_traj$date_time <- as_datetime(
+#'   paste(geolife_traj$date, geolife_traj$time),
+#'   tz = "GMT"
+#' )
+#' geolife_traj$t <- as.numeric(
+#'   geolife_traj$date_time - min(geolife_traj$date_time)
+#' )
+#'
+#' st_dbscan(
+#'   x = geolife_traj$x,
+#'   y = geolife_traj$y,
+#'   t = geolife_traj$t,
+#'   eps_spatial = 3, # meters
+#'   eps_temporal = 30, # seconds
+#'   min_pts = 3
+#' )
 #'
 #' @export
 st_dbscan <- function(x, y, t, eps_spatial, eps_temporal, min_pts) {
