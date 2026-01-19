@@ -20,7 +20,7 @@ performance.
 
 The package will be available on CRAN. Once released, install with:
 
-```{r}
+```r
 install.packages("stdbscan")
 ```
 
