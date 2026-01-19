@@ -31,8 +31,7 @@ Data manipulation applied to the raw data :
 }
 }
 \examples{
-data(my_data)
-head(my_data)
-
+data(geolife_traj)
+head(geolife_traj)
 }
 \keyword{datasets}
