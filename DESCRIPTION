@@ -27,6 +27,7 @@ Suggests:
     ggplot2,
     lubridate,
     plotly,
-    covr
+    covr,
+    MetBrewer
 VignetteBuilder: knitr
 LazyData: true
