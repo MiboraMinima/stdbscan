@@ -68,7 +68,7 @@ IntegerVector st_dbscan_cpp(NumericVector x,
         }
       }
 
-      if ((int)neighbors_p.size() >= min_pts) {
+      if (!neighbors_p.empty() && neighbors_p.size() >= static_cast<size_t>(min_pts)) {
         neighbors.insert(neighbors.end(),
                          neighbors_p.begin(),
                          neighbors_p.end());
