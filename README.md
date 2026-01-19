@@ -19,7 +19,7 @@ performance.
 
 You can install the development version of `stdbscan` from github with :
 
-```{r}
+```r
 # install.packages("devtools")
 devtools::install_github("MiboraMinima/stdbscan")
 ```
@@ -32,3 +32,9 @@ devtools::install_github("MiboraMinima/stdbscan")
 ## System Requirements
 
 `stdbscan` requires [`R`](https://cran.r-project.org) v \>= 3.5.0.
+
+## Alternatives
+
+- [ST-DBSCAN](https://github.com/CKerouanton/ST-DBSCAN)
+- [stdbscanr](https://github.com/gdmcdonald/stdbscanr)
+
