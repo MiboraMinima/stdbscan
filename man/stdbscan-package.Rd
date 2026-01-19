@@ -6,13 +6,14 @@
 \alias{stdbscan-package}
 \title{stdbscan: Spatio-Temporal DBSCAN Clustering}
 \description{
-Implements the ST-DBSCAN clustering algorithm for detecting spatially and temporally dense regions in point data, with a fast C++ backend via Rcpp.
+Implements the ST-DBSCAN clustering algorithm for detecting spatially and temporally dense regions in point data, with a fast C++ backend via 'Rcpp'. Birant and Kut (2007) <10.1016/j.datak.2006.01.013>.
 }
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/MiboraMinima/stdbscan}
-  \item Report bugs at \url{https://github.com/MiboraMinima/stdbscan/issues}
+  \item \url{https://github.com/MiboraMinima/stdbscan/}
+  \item \url{https://miboraminima.github.io/stdbscan/}
+  \item Report bugs at \url{https://github.com/MiboraMinima/stdbscan/issues/}
 }
 
 }

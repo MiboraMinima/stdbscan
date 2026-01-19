@@ -5,7 +5,7 @@
 \alias{geolife_traj}
 \title{GPS pings from the GeoLife GPS Trajectories dataset}
 \format{
-A data.frame with one row per ping and the following columns:
+A \code{data.frame} with one row per ping and the following columns:
 \itemize{
 \item \code{date} (chr): The date
 \item \code{time} (chr): The time
@@ -14,7 +14,7 @@ A data.frame with one row per ping and the following columns:
 }
 }
 \source{
-https://www.microsoft.com/en-us/download/details.aspx?id=52367
+\url{https://www.microsoft.com/en-us/download/details.aspx?id=52367}
 }
 \usage{
 geolife_traj
@@ -29,5 +29,10 @@ Data manipulation applied to the raw data :
 \item Manual selection of the pings
 \item Selection of relevant variables
 }
+}
+\examples{
+data(my_data)
+head(my_data)
+
 }
 \keyword{datasets}
