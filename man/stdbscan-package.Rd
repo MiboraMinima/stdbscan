@@ -6,7 +6,9 @@
 \alias{stdbscan-package}
 \title{stdbscan: Spatio-Temporal DBSCAN Clustering}
 \description{
-Implements the ST-DBSCAN clustering algorithm for detecting spatially and temporally dense regions in point data, with a fast C++ backend via 'Rcpp'. Birant and Kut (2007) \doi{10.1016/j.datak.2006.01.013}.
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+
+Implements the ST-DBSCAN (spatio-temporal density-based spatial clustering of applications with noise) clustering algorithm for detecting spatially and temporally dense regions in point data, with a fast C++ backend via 'Rcpp'. Birant and Kut (2007) \doi{10.1016/j.datak.2006.01.013}.
 }
 \seealso{
 Useful links:
