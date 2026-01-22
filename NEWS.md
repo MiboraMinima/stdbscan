@@ -1,3 +1,3 @@
-# stdbscan (development version)
+# stdbscan 0.1.0
 
 * Initial CRAN submission.
