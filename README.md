@@ -9,7 +9,7 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 
 ## Overview
 
-`stdbscan` provide a function for the ST-DBSCAN (**S**patio-**T**emporal DBSCAN)
+`stdbscan` provides a function for the ST-DBSCAN (**S**patio-**T**emporal DBSCAN)
 algorithm developped by Birant & Kut (2007). It extends DBSCAN by adding a
 temporal parameter that allows spatio-temporal clustering.
 
@@ -18,13 +18,14 @@ performance.
 
 ## Installation
 
-The package will be available on CRAN. Once released, install with:
+You can innstall the released version of `stdbscan` from
+[CRAN](https://cran.rstudio.com/web/packages/stdbscan/) with:
 
 ```r
 install.packages("stdbscan")
 ```
 
-In the meantime, you can install the development version from GitHub:
+And the development version from GitHub with:
 
 ```r
 # install.packages("devtools")
