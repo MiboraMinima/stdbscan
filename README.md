@@ -18,7 +18,7 @@ performance.
 
 ## Installation
 
-You can innstall the released version of `stdbscan` from
+You can install the released version of `stdbscan` from
 [CRAN](https://cran.rstudio.com/web/packages/stdbscan/) with:
 
 ```r
