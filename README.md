@@ -5,6 +5,7 @@
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![Codecov test coverage](https://codecov.io/gh/MiboraMinima/stdbscan/graph/badge.svg)](https://app.codecov.io/gh/MiboraMinima/stdbscan)
 [![CRAN status](https://www.r-pkg.org/badges/version/stdbscan)](https://CRAN.R-project.org/package=stdbscan)
+[![downloads](https://cranlogs.r-pkg.org/badges/last-month/stdbscan?color=green)](https://cran.r-project.org/package=stdbscan)
 [![R-CMD-check](https://github.com/MiboraMinima/stdbscan/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/MiboraMinima/stdbscan/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
