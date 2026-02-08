@@ -42,7 +42,7 @@ on stop identification.
 ## Problems and Issues
 
 - Please report any issues or bugs you may encounter on the [dedicated
-  page on github](https://github.com/paul-carteron/happign/issues).
+  page on github](https://github.com/MiboraMinima/stdbscan/issues).
 
 ## System Requirements
 
