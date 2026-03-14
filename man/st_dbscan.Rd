@@ -4,15 +4,13 @@
 \alias{st_dbscan}
 \title{Spatio-Temporal DBSCAN}
 \usage{
-st_dbscan(x, y, t, eps_spatial, eps_temporal, min_pts)
+st_dbscan(data, eps_spatial, eps_temporal, min_pts, ...)
 }
 \arguments{
-\item{x}{Numeric vector of x-coordinates (spatial).}
-
-\item{y}{Numeric vector of y-coordinates (spatial).}
-
-\item{t}{Numeric vector of time values. \code{t} is expected to represent elapsed
-time since a common origin (\emph{e.g.} c(0, 6, 10)).}
+\item{data}{matrix. A matrix containing, \strong{in that order}, \code{x}, \code{y} and
+\code{t}. \code{x} (longitude) and \code{y} (latitude) are the spatial coordinates and \code{t}
+is the cumulative time since a common origin (\emph{e.g.} \code{c(0, 6, 10)}). \code{t}
+must be sorted.}
 
 \item{eps_spatial}{Numeric. The spatial radius threshold. Points closer than
 this in space may belong to the same cluster.}
@@ -21,14 +19,25 @@ this in space may belong to the same cluster.}
 in time may belong to the same cluster.}
 
 \item{min_pts}{Integer. Minimum number of points required to form a core
-point (standard DBSCAN parameter).}
+point.}
+
+\item{...}{Additional arguments are passed on to \code{dbscan::frNN()} and
+\code{dbscan::dbscan()}.}
 }
 \value{
-An integer vector of length \code{length(x)} with cluster assignments:
-\itemize{
-\item \code{-1}: noise point
-\item \verb{>=1}: cluster ID
-}
+\code{st_dbscan()} returns an object of class \code{stdbscan} with the following
+components:
+
+\item{cluster }{Integer vector with cluster assignments. Zero indicates
+noise points.}
+\item{eps }{Value of the \code{eps_spatial} parameter.}
+\item{minPts }{Value of the \code{minPts} parameter.}
+\item{metric }{Used distance metric.}
+\item{boderPoints }{Whether border points are considered as noise (\code{FALSE}) or not (\code{TRUE}).}
+\item{eps_temporal }{Value of the \code{eps_temporal} parameter.}
+
+This class is a simple extension of the \code{dbscan} class. For more details,
+see \code{\link[dbscan:dbscan]{dbscan}} documentation.
 }
 \description{
 Perform \strong{ST-DBSCAN} clustering on points with spatial and temporal
@@ -41,7 +50,14 @@ Two points are considered neighbors if they are within \code{eps_spatial} in
 space \strong{and} within \code{eps_temporal} in time. Clusters are expanded from core
 points recursively following the DBSCAN algorithm.
 
-This function is implemented in C++ via Rcpp for performance.
+ST-DBSCAN is implemented using the following approach :
+
+\enumerate{
+\item Find the spatial neighbors using Fixed Radius Nearest Neighbors
+(\code{dbscan::frNN()})
+\item Filter the spatial neighbors by the temporal constraint
+\item Apply DBSCAN on the filtered neighbors using \code{dbscan::dbscan()}
+}
 }
 \examples{
 data(geolife_traj)
@@ -51,18 +67,20 @@ geolife_traj$date_time <- as.POSIXct(
   format = "\%Y-\%m-\%d \%H:\%M:\%S",
   tz = "GMT"
 )
-
 geolife_traj$t <- as.numeric(
   geolife_traj$date_time - min(geolife_traj$date_time)
 )
+data <- cbind(geolife_traj$x, geolife_traj$y, geolife_traj$t)
 
 st_dbscan(
-  x = geolife_traj$x,
-  y = geolife_traj$y,
-  t = geolife_traj$t,
-  eps_spatial = 3, # meters
-  eps_temporal = 30, # seconds
-  min_pts = 3
+  data = data,
+  eps_spatial = 3,
+  eps_temporal = 30,
+  min_pts = 3,
+  # Extra arguments
+  splitRule = "STD",
+  search = "kdtree",
+  approx = 1
 )
 
 }

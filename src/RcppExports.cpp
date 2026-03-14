@@ -10,9 +10,6 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
-// st_dbscan_cpp
-IntegerVector st_dbscan_cpp(NumericVector x, NumericVector y, NumericVector t, double eps_spatial, double eps_temporal, int min_pts);
-RcppExport SEXP _stdbscan_st_dbscan_cpp(SEXP xSEXP, SEXP ySEXP, SEXP tSEXP, SEXP eps_spatialSEXP, SEXP eps_temporalSEXP, SEXP min_ptsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -28,7 +25,6 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_stdbscan_st_dbscan_cpp", (DL_FUNC) &_stdbscan_st_dbscan_cpp, 6},
     {NULL, NULL, 0}
 };
 
