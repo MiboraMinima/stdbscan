@@ -97,12 +97,12 @@ that you would use with `dbscan::dbscan()` and `dbscan::frNN()`.
 ))
 ```
 
-As with `dbscan::dbscan()`, the number of points in each cluster is diplayed
+As with `dbscan::dbscan()`, the number of points in each cluster is displayed
 when the result is printed.
 
 ## Check result
 
-Clusters can be plotted directly using `ggplot2` :
+Clusters can be plotted directly using `ggplot2`:
 
 ```{r, fig.wigeolife_trajh=7, fig.height=7}
 # Put the cluster in the input data
@@ -130,7 +130,7 @@ ggplot() +
   )
 ```
 
-Clusters can be visualized in 3D using `plotly` :
+Clusters can be visualized in 3D using `plotly`:
 
 ```{r, warning=FALSE, message=FALSE}
 # Zoom on stop 4
