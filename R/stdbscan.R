@@ -27,7 +27,7 @@
 #' \item{eps }{Value of the `eps_spatial` parameter.}
 #' \item{minPts }{Value of the `minPts` parameter.}
 #' \item{metric }{Used distance metric.}
-#' \item{boderPoints }{Whether border points are considered as noise (`FALSE`) or not (`TRUE`).}
+#' \item{borderPoints }{Whether border points are considered as noise (`FALSE`) or not (`TRUE`).}
 #' \item{eps_temporal }{Value of the `eps_temporal` parameter.}
 #'
 #' This class is a simple extension of the `dbscan` class. For more details,
@@ -39,7 +39,7 @@
 #' space **and** within `eps_temporal` in time. Clusters are expanded from core
 #' points recursively following the DBSCAN algorithm.
 #'
-#' ST-DBSCAN is implemented using the following approach :
+#' ST-DBSCAN is implemented using the following approach:
 #'
 #' \enumerate{
 #'   \item Find the spatial neighbors using Fixed Radius Nearest Neighbors
@@ -127,7 +127,7 @@ st_dbscan <- function(data, eps_spatial, eps_temporal, min_pts, ...) {
 #'
 #' @description
 #' Check if data points are core points. A core point is a point with more than
-#' `min_pts` points in his neighborhood.
+#' `min_pts` points in its neighborhood.
 #'
 #' @param data matrix. A matrix containing, **in that order**, `x`, `y` and
 #' `t`. `x` (longitude) and `y` (latitude) are the spatial coordinates and `t`
