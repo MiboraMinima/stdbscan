@@ -15,6 +15,3 @@ GitHub Actions [results](https://github.com/MiboraMinima/stdbscan/actions/workfl
 installation. To avoid spurious warnings in continuous integration, the GitHub
 Actions workflow uses GCC 12 for Ubuntu with R-release and R-oldrel, and GCC 14
 for Ubuntu with R-devel.
-- This package is a response to propositions made
-[here](https://github.com/mlr-org/mlr3cluster/issues/83) and
-[here](https://github.com/mhahsler/dbscan/issues/83).

@@ -10,25 +10,38 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
-// st_dbscan_cpp
-IntegerVector st_dbscan_cpp(NumericVector x, NumericVector y, NumericVector t, double eps_spatial, double eps_temporal, int min_pts);
-RcppExport SEXP _stdbscan_st_dbscan_cpp(SEXP xSEXP, SEXP ySEXP, SEXP tSEXP, SEXP eps_spatialSEXP, SEXP eps_temporalSEXP, SEXP min_ptsSEXP) {
+// temporal_filter_cpp
+List temporal_filter_cpp(List id, List dist, NumericVector t, double eps_temporal);
+RcppExport SEXP _stdbscan_temporal_filter_cpp(SEXP idSEXP, SEXP distSEXP, SEXP tSEXP, SEXP eps_temporalSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
+    Rcpp::traits::input_parameter< List >::type id(idSEXP);
+    Rcpp::traits::input_parameter< List >::type dist(distSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type t(tSEXP);
-    Rcpp::traits::input_parameter< double >::type eps_spatial(eps_spatialSEXP);
     Rcpp::traits::input_parameter< double >::type eps_temporal(eps_temporalSEXP);
-    Rcpp::traits::input_parameter< int >::type min_pts(min_ptsSEXP);
-    rcpp_result_gen = Rcpp::wrap(st_dbscan_cpp(x, y, t, eps_spatial, eps_temporal, min_pts));
+    rcpp_result_gen = Rcpp::wrap(temporal_filter_cpp(id, dist, t, eps_temporal));
+    return rcpp_result_gen;
+END_RCPP
+}
+// temporal_filter_pred_cpp
+List temporal_filter_pred_cpp(List id, NumericVector n_t, NumericVector t, double eps_temporal);
+RcppExport SEXP _stdbscan_temporal_filter_pred_cpp(SEXP idSEXP, SEXP n_tSEXP, SEXP tSEXP, SEXP eps_temporalSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< List >::type id(idSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type n_t(n_tSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type t(tSEXP);
+    Rcpp::traits::input_parameter< double >::type eps_temporal(eps_temporalSEXP);
+    rcpp_result_gen = Rcpp::wrap(temporal_filter_pred_cpp(id, n_t, t, eps_temporal));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_stdbscan_st_dbscan_cpp", (DL_FUNC) &_stdbscan_st_dbscan_cpp, 6},
+    {"_stdbscan_temporal_filter_cpp", (DL_FUNC) &_stdbscan_temporal_filter_cpp, 4},
+    {"_stdbscan_temporal_filter_pred_cpp", (DL_FUNC) &_stdbscan_temporal_filter_pred_cpp, 4},
     {NULL, NULL, 0}
 };
 

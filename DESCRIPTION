@@ -1,6 +1,6 @@
 Package: stdbscan
 Title: Spatio-Temporal DBSCAN Clustering
-Version: 0.1.0
+Version: 0.2.0
 Authors@R: 
     person("Antoine", "Le Doeuff", , "antoine.ldoeuff@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0009-0008-8807-3816"))
@@ -19,14 +19,14 @@ BugReports: https://github.com/MiboraMinima/stdbscan/issues/
 LinkingTo: 
     Rcpp
 Imports: 
-    Rcpp
+    Rcpp,
+    dbscan
 Suggests: 
     knitr,
     rmarkdown,
     readr,
     testthat,
     ggplot2,
-    lubridate,
     plotly,
     covr,
     MetBrewer
