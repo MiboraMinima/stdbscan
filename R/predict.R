@@ -3,7 +3,7 @@
 #' Assigns each new observation to an existing cluster from a fitted `stdbscan`
 #' object, or marks it as noise if it falls outside any cluster.
 #'
-#' @param object An object of class `stbscan`.
+#' @param object An object of class `stdbscan`.
 #' @param data matrix. The data set used to create the clustering object.
 #' @param newdata matrix. New data points for which the cluster membership
 #' should be predicted. The data must be in the same format as the input data.

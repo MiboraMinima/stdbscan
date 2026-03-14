@@ -38,7 +38,7 @@ check_data <- function(data) {
   t <- data[, 3]
   if (any(t < 0))
     stop(
-      "There is negative values in the temporal variable. Make sure that the temporal variable is the third column of `data`.",
+      "There are negative values in the temporal variable. Make sure that the temporal variable is the third column of `data`.",
       call. = FALSE
     )
 
