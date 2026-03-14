@@ -102,7 +102,7 @@ noise points.</p></dd>
 <dt>metric </dt>
 <dd><p>Used distance metric.</p></dd>
 
-<dt>boderPoints </dt>
+<dt>borderPoints </dt>
 <dd><p>Whether border points are considered as noise (<code>FALSE</code>) or not (<code>TRUE</code>).</p></dd>
 
 <dt>eps_temporal </dt>
@@ -118,7 +118,7 @@ see <code><a href="https://rdrr.io/pkg/dbscan/man/dbscan.html" class="external-l
 Two points are considered neighbors if they are within <code>eps_spatial</code> in
 space <strong>and</strong> within <code>eps_temporal</code> in time. Clusters are expanded from core
 points recursively following the DBSCAN algorithm.</p>
-<p>ST-DBSCAN is implemented using the following approach :</p>
+<p>ST-DBSCAN is implemented using the following approach:</p>
 <ol><li><p>Find the spatial neighbors using Fixed Radius Nearest Neighbors
 (<code><a href="https://rdrr.io/pkg/dbscan/man/frNN.html" class="external-link">dbscan::frNN()</a></code>)</p></li>
 <li><p>Filter the spatial neighbors by the temporal constraint</p></li>
