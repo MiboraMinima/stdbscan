@@ -20,7 +20,7 @@ test_that("t must be positive", {
 
   expect_error(
     check_data(data),
-    "There is negative values in the temporal variable. Make sure that the temporal variable is the third column of `data`"
+    "There are negative values in the temporal variable. Make sure that the temporal variable is the third column of `data`"
   )
 })
 
