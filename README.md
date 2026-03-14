@@ -11,17 +11,18 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 
 ## Overview
 
-`stdbscan` provides a function for the ST-DBSCAN (**S**patio-**T**emporal DBSCAN)
-algorithm developped by Birant & Kut (2007). It extends DBSCAN by adding a
-temporal parameter that allows spatio-temporal clustering.
+`stdbscan` implements the ST-DBSCAN (**S**patio-**T**emporal DBSCAN) algorithm
+developped by Birant & Kut (2007). It extends DBSCAN by adding a temporal
+parameter that allows spatio-temporal clustering.
 
-The function is implemented in C++ via [`Rcpp`](https://www.rcpp.org/) for
-performance.
+For performance and compatibility, this package heavily rely on
+[`dbscan`](https://github.com/mhahsler/dbscan). All CPU consumming functions are
+written in C++ via [`Rcpp`](https://www.rcpp.org/).
 
 ## Installation
 
 You can install the released version of `stdbscan` from
-[CRAN](https://cran.rstudio.com/web/packages/stdbscan/) with:
+[CRAN](https://CRAN.R-project.org/package=stdbscan) with:
 
 ```r
 install.packages("stdbscan")
@@ -39,6 +40,11 @@ devtools::install_github("MiboraMinima/stdbscan")
 An example of the application of `stdbscan` is available in the
 [vignette](https://miboraminima.github.io/stdbscan/articles/stop-identification.html)
 on stop identification.
+
+## Breaking changes
+
+- In version `0.2.0`, `st_dbscan()` uses a `matrix` as input instead of raw `x`,
+`y` and `t` variables.
 
 ## Problems and Issues
 
