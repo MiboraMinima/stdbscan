@@ -27,7 +27,7 @@ A boolean vector indicating if data points are core points.
 }
 \description{
 Check if data points are core points. A core point is a point with more than
-\code{min_pts} points in his neighborhood.
+\code{min_pts} points in its neighborhood.
 }
 \examples{
 data(geolife_traj)

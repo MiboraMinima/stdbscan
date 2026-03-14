@@ -33,7 +33,7 @@ noise points.}
 \item{eps }{Value of the \code{eps_spatial} parameter.}
 \item{minPts }{Value of the \code{minPts} parameter.}
 \item{metric }{Used distance metric.}
-\item{boderPoints }{Whether border points are considered as noise (\code{FALSE}) or not (\code{TRUE}).}
+\item{borderPoints }{Whether border points are considered as noise (\code{FALSE}) or not (\code{TRUE}).}
 \item{eps_temporal }{Value of the \code{eps_temporal} parameter.}
 
 This class is a simple extension of the \code{dbscan} class. For more details,
@@ -50,7 +50,7 @@ Two points are considered neighbors if they are within \code{eps_spatial} in
 space \strong{and} within \code{eps_temporal} in time. Clusters are expanded from core
 points recursively following the DBSCAN algorithm.
 
-ST-DBSCAN is implemented using the following approach :
+ST-DBSCAN is implemented using the following approach:
 
 \enumerate{
 \item Find the spatial neighbors using Fixed Radius Nearest Neighbors

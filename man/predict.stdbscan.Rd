@@ -7,7 +7,7 @@
 \method{predict}{stdbscan}(object, data, newdata, ...)
 }
 \arguments{
-\item{object}{An object of class \code{stbscan}.}
+\item{object}{An object of class \code{stdbscan}.}
 
 \item{data}{matrix. The data set used to create the clustering object.}
 
