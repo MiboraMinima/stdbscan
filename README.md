@@ -12,11 +12,11 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 ## Overview
 
 `stdbscan` implements the ST-DBSCAN (**S**patio-**T**emporal DBSCAN) algorithm
-developped by Birant & Kut (2007). It extends DBSCAN by adding a temporal
+developed by Birant & Kut (2007). It extends DBSCAN by adding a temporal
 parameter that allows spatio-temporal clustering.
 
-For performance and compatibility, this package heavily rely on
-[`dbscan`](https://github.com/mhahsler/dbscan). All CPU consumming functions are
+For performance and compatibility, this package heavily relies on
+[`dbscan`](https://github.com/mhahsler/dbscan). All CPU-consuming functions are
 written in C++ via [`Rcpp`](https://www.rcpp.org/).
 
 ## Installation
