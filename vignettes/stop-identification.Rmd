@@ -17,7 +17,6 @@ knitr::opts_chunk$set(
 ```{r setup, message=FALSE}
 library(stdbscan)
 library(readr)
-library(lubridate)
 library(ggplot2)
 library(plotly)
 ```
@@ -53,16 +52,27 @@ ggplot() +
 
 ## Preprocessing
 
-For `stdbscan` to work, the time variable must be numeric. We therefore convert
-it to seconds since the beginning of the track.
+For `st_dbscan()` to work, the time variable must be numeric. We therefore convert
+it to seconds since the beginning of the track. Note that **the data must be
+sorted by time**.
 
 ```{r}
-geolife_traj$date_time <- as_datetime(
-  paste(geolife_traj$date, geolife_traj$time), tz = "GMT"
+geolife_traj$date_time <- as.POSIXct(
+  paste(geolife_traj$date, geolife_traj$time),
+  format = "%Y-%m-%d %H:%M:%S",
+  tz = "GMT"
 )
+
+# Sort data by time if needed
+geolife_traj <- geolife_traj[order(geolife_traj$date_time), ]
+
+# Convert to cumulative time
 geolife_traj$t <- as.numeric(
   geolife_traj$date_time - min(geolife_traj$date_time)
 )
+
+# Convert to matrix
+data <- cbind(geolife_traj$x, geolife_traj$y, geolife_traj$t)
 ```
 
 ## Run ST-DBSCAN
@@ -71,34 +81,36 @@ We can then run ST-DBSCAN using `st_dbscan()`. We set a spatial neighborhood of
 3 meters, a temporal neighborhood of 30 seconds, and require a minimum of 3
 pings to form a cluster. Note that these parameters are used only for
 demonstration purposes; in practice, a grid search (or similar tuning strategy)
-should be used to determine optimal values.
+should be used to determine optimal values. You can also pass extra arguments
+that you would use with `dbscan::dbscan()` and `dbscan::frNN()`.
 
 ```{r, fig.height=8}
-clusters <- st_dbscan(
-  x = geolife_traj$x,
-  y = geolife_traj$y,
-  t = geolife_traj$t,
+(res <- st_dbscan(
+  data = data,
   eps_spatial = 3, # meters
   eps_temporal = 30, # seconds
-  min_pts = 3
-)
-geolife_traj$clust <- as.factor(clusters)
+  min_pts = 3,
+  # extra arguments
+  splitRule = "STD",
+  search = "kdtree",
+  approx = 1
+))
 ```
+
+As with `dbscan::dbscan()`, the number of points in each cluster is diplayed
+when the result is printed.
 
 ## Check result
-
-We can check the number of pings in each cluster using `table()`.
-
-```{r}
-table(geolife_traj$clust)
-```
 
 Clusters can be plotted directly using `ggplot2` :
 
 ```{r, fig.wigeolife_trajh=7, fig.height=7}
+# Put the cluster in the input data
+geolife_traj$clust <- as.factor(res$cluster)
+
 # Extract stops and movements
-geolife_traj_mvt <- geolife_traj[geolife_traj$clust == "-1", ]
-geolife_traj_stop <- geolife_traj[geolife_traj$clust != "-1", ]
+geolife_traj_mvt <- geolife_traj[geolife_traj$clust == "0", ]
+geolife_traj_stop <- geolife_traj[geolife_traj$clust != "0", ]
 
 # Plot
 ggplot() +
@@ -130,7 +142,7 @@ geolife_traj_f <- geolife_traj_f[
 ]
 
 # Extract stop
-geolife_traj_f_stop <- geolife_traj_f[geolife_traj_f$clust != "-1", ]
+geolife_traj_f_stop <- geolife_traj_f[geolife_traj_f$clust != "0", ]
 
 # Plotly figure
 fig <- plot_ly(
