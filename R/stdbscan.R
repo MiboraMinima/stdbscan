@@ -123,28 +123,82 @@ st_dbscan <- function(data, eps_spatial, eps_temporal, min_pts, ...) {
   return(update_class(stdb, eps_temporal))
 }
 
+#' Check if points are core points
+#'
+#' @description
+#' Check if data points are core points. A core point is a point with more than
+#' `min_pts` points in his neighborhood.
+#'
+#' @param data matrix. A matrix containing, **in that order**, `x`, `y` and
+#' `t`. `x` (longitude) and `y` (latitude) are the spatial coordinates and `t`
+#' is the cumulative time since a common origin (*e.g.* `c(0, 6, 10)`).
+#' @param eps_spatial Numeric. The spatial radius threshold. Points closer than
+#' this in space may belong to the same cluster.
+#' @param eps_temporal Numeric. The temporal threshold. Points closer than this
+#' in time may belong to the same cluster.
+#' @param min_pts Integer. Minimum number of points required to form a core
+#' point.
+#' @param ... Additional arguments are passed on to `dbscan::frNN()`.
+#'
+#' @return
+#' A boolean vector indicating if data points are core points.
+#'
+#' @examples
+#' data(geolife_traj)
+#'
+#' geolife_traj$date_time <- as.POSIXct(
+#'   paste(geolife_traj$date, geolife_traj$time),
+#'   format = "%Y-%m-%d %H:%M:%S",
+#'   tz = "GMT"
+#' )
+#' geolife_traj$t <- as.numeric(
+#'   geolife_traj$date_time - min(geolife_traj$date_time)
+#' )
+#' data <- cbind(geolife_traj$x, geolife_traj$y, geolife_traj$t)
+#'
+#' res <- st_dbscan_corepoint(
+#'   data = data,
+#'   eps_spatial = 3,
+#'   eps_temporal = 30,
+#'   min_pts = 3
+#' )
+#' head(res)
+#'
+#' @export
+st_dbscan_corepoint <- function(data, eps_spatial, eps_temporal, min_pts, ...) {
+  check_inputs(data, eps_spatial, eps_temporal, min_pts)
+
+  # Check extra parameters
+  extra <- list(...)
+  frnn_args <- c("sort", "search", "bucketSize", "splitRule", "approx",
+                 "decreasing", "query")
+  m_idx <- pmatch(names(extra), frnn_args)
+  if (anyNA(m_idx)) {
+    stop(
+      "Unknown parameter (check `dbscan::frNN()` documentation) : ",
+      toString(names(extra)[is.na(m_idx)])
+    )
   }
 
-  # Check length
-  if (length(x) != length(y) || length(x) != length(t))
-    stop("`x`, `y` and `t` must have the same length", call. = FALSE)
+  # Isolate extra arguments for frNN()
+  extra_frnn <- extra[names(extra) %in% frnn_args]
 
-  # Check min_pts
-  if (min_pts %% 1 != 0 || min_pts < 1)
-    stop("`min_pts` must be a natural number >= 1", call. = FALSE)
+  # Find spatial neighbors with frNN
+  nn <- do.call(frNN, c(list(data[, 1:2], eps = eps_spatial), extra_frnn))
 
-  # Check t
-  if (any(t < 0))
-    warning("There are negative values in `t`", call. = FALSE)
-
-  st_dbscan_cpp(
-    x = as.double(x),
-    y = as.double(y),
-    t = as.double(t),
-    eps_spatial = eps_spatial,
-    eps_temporal = eps_temporal,
-    min_pts = min_pts
+  # Filter spatial neighbors with the temporal constraint
+  nn_temporal <- temporal_filter_cpp(
+    id = nn$id,
+    dist = nn$dist,
+    t = data[, 3],
+    eps_temporal = eps_temporal
   )
+
+  iscore <- lengths(nn_temporal$id) >= (min_pts - 1)
+
+  return(iscore)
+}
+
 #' Create stdbscan class by updating dbscan class
 #' @noRd
 update_class <- function(dbscan, eps_temporal) {
