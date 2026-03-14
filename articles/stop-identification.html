@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">stdbscan</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -77,7 +77,6 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/MiboraMinima/stdbscan/" class="external-link">stdbscan</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://readr.tidyverse.org" class="external-link">readr</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://lubridate.tidyverse.org" class="external-link">lubridate</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://plotly-r.com" class="external-link">plotly</a></span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
@@ -119,15 +118,26 @@ the relevant variables.</p>
 <div class="section level2">
 <h2 id="preprocessing">Preprocessing<a class="anchor" aria-label="anchor" href="#preprocessing"></a>
 </h2>
-<p>For <code>stdbscan</code> to work, the time variable must be numeric.
-We therefore convert it to seconds since the beginning of the track.</p>
+<p>For <code><a href="../reference/st_dbscan.html">st_dbscan()</a></code> to work, the time variable must be
+numeric. We therefore convert it to seconds since the beginning of the
+track. Note that <strong>the data must be sorted by time</strong>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">geolife_traj</span><span class="op">$</span><span class="va">date_time</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/as_date.html" class="external-link">as_datetime</a></span><span class="op">(</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">geolife_traj</span><span class="op">$</span><span class="va">date</span>, <span class="va">geolife_traj</span><span class="op">$</span><span class="va">time</span><span class="op">)</span>, tz <span class="op">=</span> <span class="st">"GMT"</span></span>
+<code class="sourceCode R"><span><span class="va">geolife_traj</span><span class="op">$</span><span class="va">date_time</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.POSIXlt.html" class="external-link">as.POSIXct</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">geolife_traj</span><span class="op">$</span><span class="va">date</span>, <span class="va">geolife_traj</span><span class="op">$</span><span class="va">time</span><span class="op">)</span>,</span>
+<span>  format <span class="op">=</span> <span class="st">"%Y-%m-%d %H:%M:%S"</span>,</span>
+<span>  tz <span class="op">=</span> <span class="st">"GMT"</span></span>
 <span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Sort data by time if needed</span></span>
+<span><span class="va">geolife_traj</span> <span class="op">&lt;-</span> <span class="va">geolife_traj</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="va">geolife_traj</span><span class="op">$</span><span class="va">date_time</span><span class="op">)</span>, <span class="op">]</span></span>
+<span></span>
+<span><span class="co"># Convert to cumulative time</span></span>
 <span><span class="va">geolife_traj</span><span class="op">$</span><span class="va">t</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span></span>
 <span>  <span class="va">geolife_traj</span><span class="op">$</span><span class="va">date_time</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">geolife_traj</span><span class="op">$</span><span class="va">date_time</span><span class="op">)</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Convert to matrix</span></span>
+<span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">geolife_traj</span><span class="op">$</span><span class="va">x</span>, <span class="va">geolife_traj</span><span class="op">$</span><span class="va">y</span>, <span class="va">geolife_traj</span><span class="op">$</span><span class="va">t</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="run-st-dbscan">Run ST-DBSCAN<a class="anchor" aria-label="anchor" href="#run-st-dbscan"></a>
@@ -137,33 +147,43 @@ spatial neighborhood of 3 meters, a temporal neighborhood of 30 seconds,
 and require a minimum of 3 pings to form a cluster. Note that these
 parameters are used only for demonstration purposes; in practice, a grid
 search (or similar tuning strategy) should be used to determine optimal
-values.</p>
+values. You can also pass extra arguments that you would use with
+<code><a href="https://rdrr.io/pkg/dbscan/man/dbscan.html" class="external-link">dbscan::dbscan()</a></code> and <code><a href="https://rdrr.io/pkg/dbscan/man/frNN.html" class="external-link">dbscan::frNN()</a></code>.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">clusters</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/st_dbscan.html">st_dbscan</a></span><span class="op">(</span></span>
-<span>  x <span class="op">=</span> <span class="va">geolife_traj</span><span class="op">$</span><span class="va">x</span>,</span>
-<span>  y <span class="op">=</span> <span class="va">geolife_traj</span><span class="op">$</span><span class="va">y</span>,</span>
-<span>  t <span class="op">=</span> <span class="va">geolife_traj</span><span class="op">$</span><span class="va">t</span>,</span>
+<code class="sourceCode R"><span><span class="op">(</span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/st_dbscan.html">st_dbscan</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">data</span>,</span>
 <span>  eps_spatial <span class="op">=</span> <span class="fl">3</span>, <span class="co"># meters</span></span>
 <span>  eps_temporal <span class="op">=</span> <span class="fl">30</span>, <span class="co"># seconds</span></span>
-<span>  min_pts <span class="op">=</span> <span class="fl">3</span></span>
-<span><span class="op">)</span></span>
-<span><span class="va">geolife_traj</span><span class="op">$</span><span class="va">clust</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">clusters</span><span class="op">)</span></span></code></pre></div>
+<span>  min_pts <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  <span class="co"># extra arguments</span></span>
+<span>  splitRule <span class="op">=</span> <span class="st">"STD"</span>,</span>
+<span>  search <span class="op">=</span> <span class="st">"kdtree"</span>,</span>
+<span>  approx <span class="op">=</span> <span class="fl">1</span></span>
+<span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; ST-DBSCAN clustering for 468 objects.</span></span>
+<span><span class="co">#&gt; Parameters: eps = 3, eps_temporal = 30, minPts = 3</span></span>
+<span><span class="co">#&gt; Using euclidean distances and borderpoints = TRUE</span></span>
+<span><span class="co">#&gt; The clustering contains 5 cluster(s) and 420 noise points.</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   0   1   2   3   4   5 </span></span>
+<span><span class="co">#&gt; 420   4   5  12  12  15 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Available fields: cluster, eps, minPts, metric, borderPoints,</span></span>
+<span><span class="co">#&gt;                   eps_temporal</span></span></code></pre></div>
+<p>As with <code><a href="https://rdrr.io/pkg/dbscan/man/dbscan.html" class="external-link">dbscan::dbscan()</a></code>, the number of points in each
+cluster is displayed when the result is printed.</p>
 </div>
 <div class="section level2">
 <h2 id="check-result">Check result<a class="anchor" aria-label="anchor" href="#check-result"></a>
 </h2>
-<p>We can check the number of pings in each cluster using
-<code><a href="https://rdrr.io/r/base/table.html" class="external-link">table()</a></code>.</p>
+<p>Clusters can be plotted directly using <code>ggplot2</code>:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">geolife_traj</span><span class="op">$</span><span class="va">clust</span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;  -1   1   2   3   4   5 </span></span>
-<span><span class="co">#&gt; 420   4   5  12  12  15</span></span></code></pre></div>
-<p>Clusters can be plotted directly using <code>ggplot2</code> :</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Extract stops and movements</span></span>
-<span><span class="va">geolife_traj_mvt</span> <span class="op">&lt;-</span> <span class="va">geolife_traj</span><span class="op">[</span><span class="va">geolife_traj</span><span class="op">$</span><span class="va">clust</span> <span class="op">==</span> <span class="st">"-1"</span>, <span class="op">]</span></span>
-<span><span class="va">geolife_traj_stop</span> <span class="op">&lt;-</span> <span class="va">geolife_traj</span><span class="op">[</span><span class="va">geolife_traj</span><span class="op">$</span><span class="va">clust</span> <span class="op">!=</span> <span class="st">"-1"</span>, <span class="op">]</span></span>
+<code class="sourceCode R"><span><span class="co"># Put the cluster in the input data</span></span>
+<span><span class="va">geolife_traj</span><span class="op">$</span><span class="va">clust</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">res</span><span class="op">$</span><span class="va">cluster</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Extract stops and movements</span></span>
+<span><span class="va">geolife_traj_mvt</span> <span class="op">&lt;-</span> <span class="va">geolife_traj</span><span class="op">[</span><span class="va">geolife_traj</span><span class="op">$</span><span class="va">clust</span> <span class="op">==</span> <span class="st">"0"</span>, <span class="op">]</span></span>
+<span><span class="va">geolife_traj_stop</span> <span class="op">&lt;-</span> <span class="va">geolife_traj</span><span class="op">[</span><span class="va">geolife_traj</span><span class="op">$</span><span class="va">clust</span> <span class="op">!=</span> <span class="st">"0"</span>, <span class="op">]</span></span>
 <span></span>
 <span><span class="co"># Plot</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
@@ -181,9 +201,9 @@ values.</p>
 <span>    legend.position <span class="op">=</span> <span class="st">"bottom"</span>,</span>
 <span>    plot.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">16</span>, face <span class="op">=</span> <span class="st">"bold"</span><span class="op">)</span>,</span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="stop-identification_files/figure-html/unnamed-chunk-7-1.png" class="r-plt" alt="" width="700"></p>
-<p>Clusters can be visualized in 3D using <code>plotly</code> :</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<p><img src="stop-identification_files/figure-html/unnamed-chunk-6-1.png" class="r-plt" alt="" width="700"></p>
+<p>Clusters can be visualized in 3D using <code>plotly</code>:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Zoom on stop 4</span></span>
 <span><span class="va">geolife_traj_f</span> <span class="op">&lt;-</span> <span class="va">geolife_traj</span><span class="op">[</span></span>
 <span>  <span class="va">geolife_traj</span><span class="op">$</span><span class="va">x</span> <span class="op">&gt;</span> <span class="fl">441060</span> <span class="op">&amp;</span> <span class="va">geolife_traj</span><span class="op">$</span><span class="va">x</span> <span class="op">&lt;</span> <span class="fl">441100</span>,</span>
@@ -193,7 +213,7 @@ values.</p>
 <span><span class="op">]</span></span>
 <span></span>
 <span><span class="co"># Extract stop</span></span>
-<span><span class="va">geolife_traj_f_stop</span> <span class="op">&lt;-</span> <span class="va">geolife_traj_f</span><span class="op">[</span><span class="va">geolife_traj_f</span><span class="op">$</span><span class="va">clust</span> <span class="op">!=</span> <span class="st">"-1"</span>, <span class="op">]</span></span>
+<span><span class="va">geolife_traj_f_stop</span> <span class="op">&lt;-</span> <span class="va">geolife_traj_f</span><span class="op">[</span><span class="va">geolife_traj_f</span><span class="op">$</span><span class="va">clust</span> <span class="op">!=</span> <span class="st">"0"</span>, <span class="op">]</span></span>
 <span></span>
 <span><span class="co"># Plotly figure</span></span>
 <span><span class="va">fig</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/plotly/man/plot_ly.html" class="external-link">plot_ly</a></span><span class="op">(</span></span>
@@ -221,7 +241,7 @@ values.</p>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <div class="plotly html-widget html-fill-item" id="htmlwidget-ac96cb3ee4656e2e9ec3" style="width:700px;height:432.632880098888px;"></div>
-<script type="application/json" data-for="htmlwidget-ac96cb3ee4656e2e9ec3">{"x":{"visdat":{"1c7f17d79747":["function () ","plotlyVisDat"]},"cur_data":"1c7f17d79747","attrs":{"1c7f17d79747":{"x":{},"y":{},"z":{},"mode":"lines+markers","line":{"wigeolife_trajh":4,"color":"grey"},"marker":{"size":3,"color":"grey"},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter3d"},"1c7f17d79747.1":{"x":{},"y":{},"z":{},"mode":"markers","line":{"wigeolife_trajh":4,"color":"grey"},"marker":{"size":4,"color":"red"},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter3d","name":"Stop","inherit":true}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"scene":{"xaxis":{"title":"x"},"yaxis":{"title":"y"},"zaxis":{"title":"t"}},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[441085.11599524895,441080.4104716641,441078.73925982724,441078.48561374075,441077.97488450893,441077.8040685812,441077.63153408136,441077.11822699063,441076.85942519293,441076.68689065095,441076.51521539781,441076.42980742484,441076.42980742484,441076.69204645528,441074.68264382833,441078.39814777253,441086.63510392181],"y":[4428787.1104895528,4428797.1409004778,4428801.9287440563,4428802.2638402423,4428802.4898814643,4428802.49120335,4428802.2704496514,4428802.1633775504,4428801.8322470281,4428801.6114933509,4428801.501777472,4428801.5024384297,4428801.5024384297,4428802.2777201124,4428807.5123596741,4428813.0358281927,4428817.8580455137],"z":[5233,5238,5243,5248,5253,5258,5263,5268,5273,5278,5283,5288,5291,5293,5298,5303,5308],"mode":"lines+markers","line":{"color":"grey","wigeolife_trajh":4},"marker":{"color":"grey","size":3,"line":{"color":"rgba(31,119,180,1)"}},"type":"scatter3d","error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"frame":null},{"x":[441078.73925982724,441078.48561374075,441077.97488450893,441077.8040685812,441077.63153408136,441077.11822699063,441076.85942519293,441076.68689065095,441076.51521539781,441076.42980742484,441076.42980742484,441076.69204645528],"y":[4428801.9287440563,4428802.2638402423,4428802.4898814643,4428802.49120335,4428802.2704496514,4428802.1633775504,4428801.8322470281,4428801.6114933509,4428801.501777472,4428801.5024384297,4428801.5024384297,4428802.2777201124],"z":[5243,5248,5253,5258,5263,5268,5273,5278,5283,5288,5291,5293],"mode":"markers+lines","line":{"color":"grey","wigeolife_trajh":4},"marker":{"color":"red","size":4,"line":{"color":"rgba(255,127,14,1)"}},"type":"scatter3d","name":"Stop","error_y":{"color":"rgba(255,127,14,1)"},"error_x":{"color":"rgba(255,127,14,1)"},"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="htmlwidget-ac96cb3ee4656e2e9ec3">{"x":{"visdat":{"1e106eca9a4d":["function () ","plotlyVisDat"]},"cur_data":"1e106eca9a4d","attrs":{"1e106eca9a4d":{"x":{},"y":{},"z":{},"mode":"lines+markers","line":{"wigeolife_trajh":4,"color":"grey"},"marker":{"size":3,"color":"grey"},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter3d"},"1e106eca9a4d.1":{"x":{},"y":{},"z":{},"mode":"markers","line":{"wigeolife_trajh":4,"color":"grey"},"marker":{"size":4,"color":"red"},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter3d","name":"Stop","inherit":true}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"scene":{"xaxis":{"title":"x"},"yaxis":{"title":"y"},"zaxis":{"title":"t"}},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[441085.11599524895,441080.4104716641,441078.73925982724,441078.48561374075,441077.97488450893,441077.8040685812,441077.63153408136,441077.11822699063,441076.85942519293,441076.68689065095,441076.51521539781,441076.42980742484,441076.42980742484,441076.69204645528,441074.68264382833,441078.39814777253,441086.63510392181],"y":[4428787.1104895528,4428797.1409004778,4428801.9287440563,4428802.2638402423,4428802.4898814643,4428802.49120335,4428802.2704496514,4428802.1633775504,4428801.8322470281,4428801.6114933509,4428801.501777472,4428801.5024384297,4428801.5024384297,4428802.2777201124,4428807.5123596741,4428813.0358281927,4428817.8580455137],"z":[5233,5238,5243,5248,5253,5258,5263,5268,5273,5278,5283,5288,5291,5293,5298,5303,5308],"mode":"lines+markers","line":{"color":"grey","wigeolife_trajh":4},"marker":{"color":"grey","size":3,"line":{"color":"rgba(31,119,180,1)"}},"type":"scatter3d","error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"frame":null},{"x":[441078.73925982724,441078.48561374075,441077.97488450893,441077.8040685812,441077.63153408136,441077.11822699063,441076.85942519293,441076.68689065095,441076.51521539781,441076.42980742484,441076.42980742484,441076.69204645528],"y":[4428801.9287440563,4428802.2638402423,4428802.4898814643,4428802.49120335,4428802.2704496514,4428802.1633775504,4428801.8322470281,4428801.6114933509,4428801.501777472,4428801.5024384297,4428801.5024384297,4428802.2777201124],"z":[5243,5248,5253,5258,5263,5268,5273,5278,5283,5288,5291,5293],"mode":"markers+lines","line":{"color":"grey","wigeolife_trajh":4},"marker":{"color":"red","size":4,"line":{"color":"rgba(255,127,14,1)"}},"type":"scatter3d","name":"Stop","error_y":{"color":"rgba(255,127,14,1)"},"error_x":{"color":"rgba(255,127,14,1)"},"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

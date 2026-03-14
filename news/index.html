@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">stdbscan</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,10 +39,30 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.2.0" id="stdbscan-020">stdbscan 0.2.0<a class="anchor" aria-label="anchor" href="#stdbscan-020"></a></h2>
+<div class="section level3">
+<h3 id="changes-0-2-0">Changes<a class="anchor" aria-label="anchor" href="#changes-0-2-0"></a></h3>
+<ul><li>
+<code><a href="../reference/st_dbscan.html">st_dbscan()</a></code> now uses <code>dbscan</code> hunder the hood.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="new-features-0-2-0">New features<a class="anchor" aria-label="anchor" href="#new-features-0-2-0"></a></h3>
+<ul><li>Add a fonction for prediction <code>predict(&lt;stdbcsan&gt;)</code>.</li>
+<li>Add a fonction to check if points are corepoints <code><a href="../reference/st_dbscan_corepoint.html">st_dbscan_corepoint()</a></code>.</li>
+<li>Add a class (<code>stdbscan</code>) for the clustering object based on the <code>dbscan</code> class.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="breaking-changes-0-2-0">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-2-0"></a></h3>
+<ul><li>Input is now a <code>matrix</code> (<code>x</code>, <code>y</code> and <code>t</code>) like in <code><a href="https://rdrr.io/pkg/dbscan/man/dbscan.html" class="external-link">dbscan::dbscan()</a></code>
+</li>
+</ul></div>
+</div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.0" id="stdbscan-010">stdbscan 0.1.0<a class="anchor" aria-label="anchor" href="#stdbscan-010"></a></h2><p class="text-muted">CRAN release: 2026-01-27</p>
 <ul><li>Initial CRAN submission.</li>
 </ul></div>
-  </main></div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">
